@@ -1,0 +1,367 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="author" content="mironcoder" />
+  <meta name="email" content="mironcoder@gmail.com" />
+  <meta name="profile" content="https://themeforest.net/user/mironcoder" />
+  <meta name="template" content="Organe" />
+  <meta name="title" content="Organe - Organic Food HTML Template" />
+  <meta name="keywords" content="organe, organic, food, shop, ecommerce, store, html, agriculture, vegetable, organic food, organic product, organic farm, organic life, organic shop, food store" />
+  <title>Organe - Product Details</title>
+  <link rel="icon" href="images/favicon.png" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/flaticon.css') }}">
+  <link rel="stylesheet" href="/static/css/icofont.min.css" />
+  <link rel="stylesheet" href="/static/css/nice-select.min.css" />
+  <link rel="stylesheet" href="/static/css/jquery-ui.min.css" />
+  <link rel="stylesheet" href="/static/css/venobox.min.css" />
+  <link rel="stylesheet" href="/static/css/slick.min.css" />
+  <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/main.css" />
+  <link rel="stylesheet" href="/static/css/product-details.css" />
+  <link rel="stylesheet" href="/static/mycss.css">
+ </head>
+ <body>
+  <section class="header-part">
+   <div class="container-fluid">
+    <div class="header-content-group">
+     <div class="header-widget-group left">
+      <button class="header-widget header-user" title="My Account"><img src="/static/picture/user.png" alt="user" /></button>
+      <a class="header-logo" href="{{url_for('index')}}"><img src="/static/picture/logo1.png" alt="logo" /></a>
+      <button class="header-widget header-src" title="Search Bar"><i class="icofont-ui-search"></i></button>
+      
+     </div>
+     <form class="header-form">
+  <input type="text" id="search-input" placeholder="搜索">
+  <button id="search-btn"><i class="icofont-ui-search"></i></button>
+</form>
+     <div class="header-widget-group right">
+      {% if current_user.is_authenticated %}
+             <div class="header-widget" title="My Account"><img src="/static/picture/user.png" alt="user"/><span id="username" data-username="{{ username }}">当前登录用户名: {{username}}</span></div>
+        {% else %}
+      <a class="header-widget" href="{{url_for('login')}}" title="My Account"><img src="/static/picture/user.png" alt="user"/><span>登录</span></a>
+         {% endif %}
+      
+      <button class="header-widget header-cart" title="Cartlist"><i class="icofont-shopping-cart"></i><span>00.00</span><sup>0</sup></button>
+     </div>
+    </div>
+   </div>
+  </section>
+  <nav class="navbar-part">
+   <div class="container">
+    <div class="row">
+     <div class="col-lg-12">
+      <div class="navbar-content">
+        <ul class="navbar-list">
+         <li class="navbar-item dropdown"><a class="navbar-link" href="{{url_for('index')}}">首页</a>
+         <li class="navbar-item dropdown"><a class="navbar-link" href="{{url_for('products')}}">全部商品</a></li>
+          <li class="navbar-item dropdown"><a class="navbar-link" href="{{url_for('orderlist')}}">购物历史</a></li>
+         <li class="navbar-item dropdown-megamenu"><a class="navbar-link dropdown-arrow">种类</a>
+          <div class="megamenu">
+           <div class="container">
+            <div class="row row-cols-4">
+             <div class="col">
+              <div class="megamenu-wrap">
+               <h5 class="megamenu-title">机箱</h5>
+               <ul class="megamenu-list">
+                <li><a href="/products?search=机箱%20联想">联想机箱</a></li>
+                <li><a href="/products?search=机箱%20华硕">华硕机箱</a></li>
+                <li><a href="/products?search=机箱%20其他">其他机箱</a></li>
+               </ul>
+              </div>
+             </div>
+             <div class="col">
+              <div class="megamenu-wrap">
+               <h5 class="megamenu-title">主板</h5>
+               <ul class="megamenu-list">
+                <li><a href="/products?search=主板%20华硕">华硕主板</a></li>
+                <li><a href="/products?search=主板%20七彩虹">七彩虹主板</a></li>
+                <li><a href="/products?search=主板%20其他">其他主板</a></li>
+               </ul>
+              </div>
+             </div>
+             <div class="col">
+              <div class="megamenu-wrap">
+               <h5 class="megamenu-title">显卡</h5>
+               <ul class="megamenu-list">
+                <li><a href="/products?search=显卡%20华硕">华硕显卡</a></li>
+                <li><a href="/products?search=显卡%20七彩虹">七彩虹显卡</a></li>
+                <li><a href="/products?search=显卡%20其他">其他显卡</a></li>
+               </ul>
+              </div>
+             </div>
+             <div class="col">
+              <div class="megamenu-wrap">
+               <h5 class="megamenu-title">CPU</h5>
+               <ul class="megamenu-list">
+                <li><a href="/products?search=CPU%20Intel">IntelCPU</a></li>
+                <li><a href="/products?search=CPU%20AMD">AMDCPU</a></li>
+               </ul>
+              </div>
+             </div>
+             <div class="col">
+              <div class="megamenu-wrap">
+               <h5 class="megamenu-title">内存</h5>
+               <ul class="megamenu-list">
+                <li><a href="/products?search=内存%20三星">三星内存</a></li>
+                <li><a href="/products?search=内存%20其他">其他内存</a></li>
+               </ul>
+              </div>
+             </div>
+             <div class="col">
+              <div class="megamenu-wrap">
+               <h5 class="megamenu-title">硬盘</h5>
+               <ul class="megamenu-list">
+                <li><a href="/products?search=硬盘%20三星">三星硬盘</a></li>
+                <li><a href="/products?search=硬盘%20华硕">华硕硬盘</a></li>
+                <li><a href="/products?search=硬盘%20其他">其他硬盘</a></li>
+               </ul>
+              </div>
+             </div>
+             <div class="col">
+              <div class="megamenu-wrap">
+               <h5 class="megamenu-title">笔记本</h5>
+               <ul class="megamenu-list">
+                <li><a href="/products?search=笔记本%20华硕">华硕笔记本</a></li>
+                <li><a href="/products?search=笔记本%20联想">联想笔记本</a></li>
+                <li><a href="/products?search=笔记本%20戴尔">戴尔笔记本</a></li>
+                <li><a href="/products?search=笔记本%20其他">其他笔记本</a></li>
+                
+               </ul>
+              </div>
+             </div>
+             <div class="col">
+              <div class="megamenu-wrap">
+               <h5 class="megamenu-title">显示器</h5>
+               <ul class="megamenu-list">
+                <li><a href="/products?search=显示器%20华硕">华硕显示器</a></li>
+                <li><a href="/products?search=显示器%20三星">三星显示器</a></li>
+                <li><a href="/products?search=显示器%20戴尔">戴尔显示器</a></li>
+                <li><a href="/products?search=显示器%20其他">其他显示器</a></li>
+                
+               </ul>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div></li>
+         <li class="navbar-item dropdown"><a class="navbar-link dropdown-arrow">操作账号</a>
+          <ul class="dropdown-position-list">
+           {% if current_user.is_authenticated %}
+          <li><a href="{{url_for('logout')}}">登出</a></li>
+        {% else %}
+        <li><a href="{{url_for('login')}}">登录</a></li>
+         {% endif %}
+          <li><a href="{{url_for('register')}}">注册</a></li>
+          <li><a href="{{url_for('reset')}}">重置密码</a></li>
+          </ul></li>
+{% if current_user.is_authenticated and current_user.authority != "customer" %}
+          <li class="navbar-item dropdown"><a class="navbar-link" href="{{url_for('goods_import')}}">后台管理</a></li>
+{% endif %}
+         
+        </ul>
+        <div class="navbar-info-group">
+         <div class="navbar-info">
+          <i class="icofont-ui-touch-phone"></i>
+          <p><small>联系我们</small><span>15206160250</span></p>
+         </div>
+         <div class="navbar-info">
+          <i class="icofont-ui-email"></i>
+          <p><small>联系我们</small><span>1365011025@qq.com</span></p>
+         </div>
+        </div>
+       </div>
+     </div>
+    </div>
+   </div>
+  </nav>
+  
+  <aside class="cart-part">
+   <div class="cart-container">
+    <div class="cart-header">
+     <div class="cart-total">
+      <i class="icofont-shopping-cart"></i>
+      <span>total item (0)</span>
+     </div>
+     <button class="cart-close"><i class="icofont-close"></i></button>
+    </div>
+    <ul class="cart-list">
+     
+    </ul>
+    <div class="cart-footer">
+     <button class="coupon-btn">Do you have a coupon code?</button>
+     <form class="coupon-form">
+      <input type="text" placeholder="Enter your coupon code" />
+      <button type="submit"><span>apply</span></button>
+     </form>
+     <a class="cart-checkout-btn" href="{{url_for('checkout')}}"><span class="checkout-label">去支付</span><span class="checkout-price">￥00.00</span></a>
+    </div>
+   </div>
+  </aside>
+  <aside class="mobile-nav">
+   <div class="nav-container">
+    <div class="nav-header">
+     <a href="{{url_for('index')}}"><img src="/static/picture/logo1.png" alt="logo" /></a>
+     <button class="nav-close"><i class="icofont-close"></i></button>
+    </div>
+    <div class="nav-content">
+     <div class="nav-profile">
+      <div><img class="nav-user" src="/static/picture/user.png" alt="user" /></div>
+      <h4 class="nav-name">{% if current_user.is_authenticated %}
+             <div>当前登录用户名: {{username}}</div>
+        {% else %}
+      <a href="{{url_for('login')}}">登录</a>
+         {% endif %}</h4>
+     </div>
+     
+     <ul class="nav-list">
+      <li><a class="nav-link" href="{{url_for('index')}}"><i class="icofont-home"></i>首页</a></li>
+      <li><a class="nav-link" href="{{url_for('products')}}"><i class="icofont-food-cart"></i>全部商品</a></li>
+      <li><a class="nav-link" href="{{url_for('checkout')}}"><i class="icofont-checked"></i>购物车</a></li>
+       <li><a class="nav-link" href="{{url_for('orderlist')}}"><i class="icofont-page"></i>购物历史</a></li>
+      {% if current_user.is_authenticated and current_user.authority != "customer" %}
+<li><a class="nav-link" href="{{url_for('goods_import')}}"><i class="icofont-settings"></i>后台管理</a></li>
+{% endif %}
+      <li><a class="nav-link" href="{{url_for('logout')}}"><i class="icofont-logout"></i>登出</a></li>
+     </ul>
+     <div class="nav-info-group">
+      <div class="nav-info">
+       <i class="icofont-ui-touch-phone"></i>
+       <p><small>联系我们</small><span>15206160250</span></p>
+      </div>
+      <div class="nav-info">
+       <i class="icofont-ui-email"></i>
+       <p><small>邮件我们</small><span>1365011025@qq.com</span></p>
+      </div>
+     </div>
+     <div class="nav-footer">
+      <p>按需消费，理性购物</p>
+     </div>
+    </div>
+   </div>
+  </aside>
+  <menu class="mobile-menu">
+   <a href="{{url_for('index')}}" title="Home Page"><i class="icofont-ui-home"></i><span>首页</span></a>
+   <button class="cart-btn" title="Cartlist"><i class="icofont-shopping-cart"></i><span>购物车</span><sup>0</sup></button>
+  </menu>
+  
+  <section class="single-banner inner-section">
+   <div class="container">
+    <h2>商品详情</h2>
+    <ol class="breadcrumb">
+     <li class="breadcrumb-item"><a href="{{url_for('index')}}">首页</a></li>
+     <li class="breadcrumb-item"><a href="{{url_for('products')}}">商品选择</a></li>
+     <li class="breadcrumb-item active" aria-current="page">商品详情</li>
+    </ol>
+   </div>
+  </section>
+  <section class="inner-section">
+   <div class="container">
+    <div class="row showdetails">
+     <div class="col-lg-6">
+     </div>
+     <div class="col-lg-6">
+     </div>
+    </div>
+   </div>
+  </section>
+  <section class="inner-section">
+   <div class="container">
+    <div class="row">
+     <div class="col">
+      <div class="section-heading">
+       <h2>相关产品</h2>
+      </div>
+     </div>
+    </div>
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+     
+    </div>
+    <div class="row">
+     <div class="col-lg-12">
+      <div class="section-btn-25">
+       <a href="{{url_for('products')}}" class="btn btn-outline"><i class="icofont-eye-alt"></i><span>更多</span></a>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+  
+  <section class="visual-part">
+   <div class="container">
+    <div class="row">
+     <div class="col-sm-6 col-lg-3">
+      <div class="visual-wrap">
+       <div class="visual-icon">
+        <i class="icofont-vehicle-delivery-van"></i>
+       </div>
+       <div class="visual-content">
+        <h5>免费的送货上门</h5>
+       </div>
+      </div>
+     </div>
+     <div class="col-sm-6 col-lg-3">
+      <div class="visual-wrap">
+       <div class="visual-icon">
+        <i class="icofont-retweet"></i>
+       </div>
+       <div class="visual-content">
+        <h5>即时的退货政策</h5>
+       </div>
+      </div>
+     </div>
+     <div class="col-sm-6 col-lg-3">
+      <div class="visual-wrap">
+       <div class="visual-icon">
+        <i class="icofont-support"></i>
+       </div>
+       <div class="visual-content">
+        <h5>全天的在线服务</h5>
+       </div>
+      </div>
+     </div>
+     <div class="col-sm-6 col-lg-3">
+      <div class="visual-wrap">
+       <div class="visual-icon">
+        <i class="icofont-ssl-security"></i>
+       </div>
+       <div class="visual-content">
+        <h5>安全的支付方式</h5>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+  <footer class="footer-part">
+   <div class="container">
+    
+    <div class="row">
+     <div class="col-12">
+      <div class="footer-bottom">
+       <p class="footer-copytext">按需消费，理性购物</p>
+       
+      </div>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <script src="/static/js/jquery-1.12.4.min.js"></script>
+  <script src="/static/js/popper.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/nice-select.min.js"></script>
+  <script src="/static/js/venobox.min.js"></script>
+  <script src="/static/js/jquery-ui.js"></script>
+  <script src="/static/js/slick.min.js"></script>
+  <script src="/static/js/nice-select.js"></script>
+  <script src="/static/js/price-range.js"></script>
+  <script src="/static/js/accordion.js"></script>
+  <script src="/static/js/venobox.js"></script>
+  <script src="/static/js/slick.js"></script>
+  <script src="/static/shop_car.js"></script>
+  <script src="/static/shopping.js"></script>
+  <script src="/static/js/main.js"></script>
+  <script src="/static/details.js"></script>
+ </body>
+</html>

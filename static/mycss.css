@@ -1,0 +1,77 @@
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23ff0000' class='bi bi-list' viewBox='0 0 16 16'%3e%3cpath fill-rule='evenodd' d='M1 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1H1.5a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1H1.5a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1H1.5a.5.5 0 0 1-.5-.5z'/%3e%3c/svg%3e");
+}
+a {
+        text-decoration: none;
+        color: inherit;
+    }
+.header-logo img {
+    width: auto;
+    height: 50px;
+}
+.img-container {
+  min-height: 150px;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: white;
+}
+.product-image {
+  height: 175px;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: white;
+}
+.cart-media a {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: white;
+}
+.details-preview{
+  height: 0;
+  padding-top: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.details-preview::before {
+  content: "";
+  display: block;
+  padding-top: inherit;
+}
+.details-preview img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.img-container img,.product-image img ,.cart-media img{
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.table td input,
+.table .form-control:disabled {
+  border: none;
+  outline: none;
+  background: transparent;
+}
+.double-width {
+    width: 2fr !important; /* 设置宽度为其他单元格的两倍，并强制覆盖 */
+}
+
