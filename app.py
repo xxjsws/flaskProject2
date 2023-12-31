@@ -480,8 +480,10 @@ def edit_import():
         pnumber = request.form.get('pnumber')
         pcost = request.form.get('pcost')
         form_type = request.form.get('form_type')
+        print(pname)
         if form_type == 'add-import':
             product_data = Product.query.filter_by(product_name=pname).first()
+            
             if product_data:
                 new_import = Import(import_product_id=product_data.product_id, import_number=pnumber,
                                     import_price=pcost)

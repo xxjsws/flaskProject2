@@ -1,7 +1,9 @@
 $(document).ready(function () {
     $('#add-import').on('shown.bs.modal', function () {
         $('.select2').select2({
-            dropdownParent: $('#add-import')
+            
+            dropdownParent: $('#add-import'),
+            
         });
         $.ajax({
         url: '/product_list', // 请求的URL
@@ -10,7 +12,7 @@ $(document).ready(function () {
         success: function(res) {
             var str = ""
             $.each(res, function(i, v) {
-                str += "<option value="+v[0]+">"+v[0]+"</option>";
+                str += "<option value='"+v[0]+"'>"+v[0]+"</option>";
             })
             $('#pname1').html(str);
            },
