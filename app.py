@@ -685,11 +685,11 @@ def request_list():
             p_data = Product.query.filter_by(product_name=request1).first()
             tags = re.split('[,，]', p_data.product_tag)
             products_list = sorted([[p.product_name, p.product_tag, p.suggested_price,
-                        p.product_describe, p.product_image, p.sold_out,
-                        p.product_repertory, p.product_cost] for p in product
-                        if p != p_data and any(pname_part in p.product_tag for pname_part in tags)],
-                       key=lambda x: sum(1 for pname_part in tags if pname_part in x[1]),
-                       reverse=True)[:5]
+                                     p.product_describe, p.product_image, p.sold_out,
+                                     p.product_repertory, p.product_cost] for p in product
+                                    if p != p_data and any(pname_part in p.product_tag for pname_part in tags)],
+                                   key=lambda x: sum(1 for pname_part in tags if pname_part in x[1]),
+                                   reverse=True)[:5]
         return jsonify(products_list)
 
 
@@ -897,4 +897,4 @@ def add_cart():
 if __name__ == '__main__':
     mysql.create_all()
 
-    app.run(debug=True,host='0.0.0.0',port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5000)
