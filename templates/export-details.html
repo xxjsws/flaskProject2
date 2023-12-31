@@ -43,7 +43,15 @@
 </nav>
         <h3>编辑出库单</h3>
 
-
+        {% with messages=get_flashed_messages() %}
+        {% if messages%}
+            {% for message in messages%}
+            <div class="alert alert-danger mb-3">
+                {{ message }}
+             </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 <form id="export-d" action="/e_details" method="POST">
                 <input type="hidden" name="form_type" value={{ eid }}>
     <div class="row">

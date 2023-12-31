@@ -1,12 +1,13 @@
 import os
+import re
 from werkzeug.utils import secure_filename
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import String, Column, Integer, Float, desc, asc, text, TIMESTAMP
 from werkzeug.security import generate_password_hash, check_password_hash
-from wtforms.validators import  DataRequired, Length, EqualTo
+from wtforms.validators import DataRequired, Length, EqualTo
 from flask import Flask, render_template, redirect, request, url_for, flash, jsonify
-from wtforms import StringField, SubmitField,  PasswordField, BooleanField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField
 from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required
 from datetime import datetime
 
@@ -28,7 +29,7 @@ login_manager = LoginManager(app)
 # 创建登录表单类
 class LoginForm(FlaskForm):
     username = StringField(label='用户名', validators=[DataRequired()])
-    password = PasswordField(label='密码', validators=[DataRequired(), Length(min=6, max=10)])
+    password = PasswordField(label='密码', validators=[DataRequired()])
     remember_me = BooleanField(label='记住我')
     submit = SubmitField(label='登录')
 
@@ -92,6 +93,15 @@ class Import(mysql.Model):
     import_number = Column(Integer, default=0)
     import_price = Column(Float, default=0)
     is_arrival = Column(Integer, default=0)
+
+
+class Ex(mysql.Model):
+    # 定义表名
+    __tablename__ = 'ex_pro'
+    export_id = Column(Integer, primary_key=True)
+    product_name = Column(String(200), primary_key=True)
+    number = Column(Integer)
+    price = Column(String(200))
 
 
 class Export(mysql.Model):
@@ -203,13 +213,9 @@ def login():
             username = form.username.data
             password = form.password.data
             remember = form.remember_me.data
-            print('username: {}'.format(username))
-            print('password: {}'.format(password))
-            print('remember: {}'.format(remember))
             # 数据库查询
             user = User.query.filter_by(username=username).first()
             if user:
-                print(user.validate_password(password))
                 if username == user.username and user.validate_password(password):
                     # if username==username:
                     # login_user表示让用户登录。保存到当前会话当中（session），这样才能加载和访问id
@@ -219,7 +225,7 @@ def login():
                     mysql.session.add(new_log)
                     mysql.session.commit()
                     if user.authority != "customer":
-                        return redirect(url_for('editproduct'))
+                        return redirect(url_for('edit_product'))
                     else:
                         return redirect(url_for('index', username=username))
                 else:
@@ -535,7 +541,8 @@ def delete_import():
 def e_details():
     if current_user.is_authenticated:
         form_type = request.form.get('form_type')
-        if form_type:
+        if form_type != 'None':
+            print(form_type)
             exp = Export.query.filter_by(export_id=form_type).first()
             if exp.export_deal != 1:
                 values = exp.export_describe.split(',')
@@ -555,8 +562,11 @@ def e_details():
             cname = request.form.get('cname')
             user = User.query.filter_by(username=cname).first()
             remarks = request.form.get('remarks')
-
+            if not cname:
+                flash('请填写客户名')
+                return redirect(url_for('export_details'))
             plists = ""
+            last_export = Export.query.order_by(Export.export_id.desc()).first()
             for i in range(3):
                 pname = request.form.get('pname{}'.format(i + 1))
                 product_data = Product.query.filter_by(product_name=pname).first()
@@ -565,8 +575,12 @@ def e_details():
                     pcost = request.form.get('pcost{}'.format(i + 1))
                     product_data.product_repertory -= pnum
                     plists += f"{pname}, {pnum}, {pcost}, "
+                    new_ex = Ex(export_id=(last_export.export_id + 1), product_name=pname,
+                                number=pnum, price=pcost)
+                    mysql.session.add(new_ex)
             if form_type == 'None':
-                new_export = Export(export_user_id=user.id, export_employee_id=employee.id,
+                new_export = Export(export_id=(last_export.export_id + 1), export_user_id=user.id,
+                                    export_employee_id=employee.id,
                                     export_describe=plists, export_deal='1', export_remark=remarks)
                 mysql.session.add(new_export)
             else:
@@ -590,13 +604,17 @@ def post_e():
         if user.shopping_cart is not None and user.shopping_cart != '':
             plists = ""
             cart_list2 = user.shopping_cart.split(',')
+            last_export = Export.query.order_by(Export.export_id.desc()).first()
             for i in range(len(cart_list2)):
                 if i % 2 == 0:
                     product_data = Product.query.filter_by(product_name=cart_list2[i]).first()
                     if product_data and product_data.sold_out == 0:
                         plists += f"{cart_list2[i]}, {cart_list2[i + 1]}, {product_data.suggested_price}, "
+                        new_ex = Ex(export_id=(last_export.export_id + 1), product_name=cart_list2[i],
+                                    number=cart_list2[i + 1], price=product_data.suggested_price)
+                        mysql.session.add(new_ex)
             user.shopping_cart = None
-            new_export = Export(export_user_id=user.id, export_describe=plists,
+            new_export = Export(export_id=(last_export.export_id + 1), export_user_id=user.id, export_describe=plists,
                                 export_deal='0', export_remark=h6content)
             mysql.session.add(new_export)
             new_log = Logs(log_userid=user.id, log_details="提交了订单")
@@ -663,17 +681,15 @@ def request_list():
                               p.product_describe, p.product_image, p.sold_out,
                               p.product_repertory, p.product_cost] for p in product[:5]]
         else:
-            product = Product.query.order_by(Product.sold_out, desc(Product.product_repertory),
-                                             desc(Product.product_id)).all()
+            product = Product.query.order_by(Product.sold_out, desc(Product.product_repertory)).all()
             p_data = Product.query.filter_by(product_name=request1).first()
-            products_list = [[p.product_name, p.product_tag, p.suggested_price,
-                              p.product_describe, p.product_image, p.sold_out,
-                              p.product_repertory, p.product_cost] for p in product[:5] if any(pname_part.strip()
-                                                                                               in p.product_tag for
-                                                                                               pname_part in
-                                                                                               p_data.product_tag.split(
-                                                                                                   ','))]
-
+            tags = re.split('[,，]', p_data.product_tag)
+            products_list = sorted([[p.product_name, p.product_tag, p.suggested_price,
+                        p.product_describe, p.product_image, p.sold_out,
+                        p.product_repertory, p.product_cost] for p in product
+                        if p != p_data and any(pname_part in p.product_tag for pname_part in tags)],
+                       key=lambda x: sum(1 for pname_part in tags if pname_part in x[1]),
+                       reverse=True)[:5]
         return jsonify(products_list)
 
 
@@ -682,7 +698,9 @@ def before_after():
     # 获取请求中的参数
     pname = request.form.get('pname')
     # 查询指定产品名的记录
+    print(pname)
     product = Product.query.filter_by(product_name=pname).first()
+    print(product)
     if product:
         # 查询前一行数据
 
@@ -878,4 +896,5 @@ def add_cart():
 
 if __name__ == '__main__':
     mysql.create_all()
-    app.run(debug=True)
+
+    app.run(debug=True,host='0.0.0.0',port=5000)

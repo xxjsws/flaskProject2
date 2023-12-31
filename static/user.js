@@ -14,6 +14,9 @@ function UserList() {
         data: { pname: search },
         dataType: 'json', // 预期服务器返回的数据类型
         success: function(res) { // 请求成功后的回调函数
+            if (res.length == 0){
+
+            }else{
             var str = "<thead><tr><td>用户名</td><td>权限</td>" +
                 "<td>操作</td></tr></thead><tbody>";
             $.each(res, function(i, v) {
@@ -27,7 +30,7 @@ function UserList() {
             });
             str += "</tbody>";
             $('#user-list').html(str);
-        },
+        }},
         error: function(xhr, status, error) {
             // 处理错误情况
             console.error("An error occurred: " + status + ", error: " + error);
@@ -39,6 +42,9 @@ function UserList() {
         type: 'GET', // 请求类型
         dataType: 'json', // 预期服务器返回的数据类型
         success: function(res) { // 请求成功后的回调函数
+            if (res.length == 0){
+
+            }else{
             var str = "<thead><tr><td>用户名</td><td>权限</td>" +
                 "<td>操作</td></tr></thead><tbody>";
             $.each(res, function(i, v) {
@@ -52,7 +58,7 @@ function UserList() {
             });
             str += "</tbody>";
             $('#user-list').html(str);
-        },
+        }},
         error: function(xhr, status, error) {
             // 处理错误情况
             console.error("An error occurred: " + status + ", error: " + error);

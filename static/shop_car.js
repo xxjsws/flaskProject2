@@ -31,21 +31,29 @@ function car_list() {
     $(".product-add").on("click", (function () {
       var i = $(this).next(".product-action");
       if (i.css("display") === "flex") {
+        
         // 当 display 属性为 flex 时执行的逻辑
         i.css("display", "none")
         var input = i.find("input.action-input");
         var value = input.val();
-        var dataName = input.data("name");
+        var dataName = $(this).data("name");
         $.ajax({
           url: 'add_cart',
           type: 'POST',
           data: { pname: dataName, value: value },
           success: function (response) {
             if (response === "ok"){
-              show_cart()
+              
+      
+              
+              res1()
+              
+              
             }else{
               alert("购物车已满！请在删除或下单后继续添加！")
-              show_cart()
+            
+              res1()
+            
             }
             
           }
@@ -68,6 +76,7 @@ function car_list() {
     }))
   }
 }
+var jspd = 1;
 function show_cart() {
   const usernameElement = document.getElementById('username');
   if (usernameElement) {
@@ -119,7 +128,10 @@ function show_cart() {
                 method: "POST",
                 data: { pname: productName },
                 success: function (response) {
-                  show_cart()
+                  
+                  
+                  res1()
+                  
                   calTotal(total)
                   calculateTotal()
                 },
@@ -140,7 +152,7 @@ function show_cart() {
                   h6Content: $('.profile-card.contact.no.active h6').text()
                 },
                 success: function (response) {
-                  show_cart();
+                  res1()
                 }
               });
             })
@@ -166,7 +178,10 @@ function show_cart() {
           $('.header-cart sup,.cart-btn sup').html("0")
           $('.header-cart span').html("00.00")
           $('.cart-total span').html("全部商品（0）")
-          bdsj();
+          
+            bdsj();   
+          
+          
         } else {
           var length = response.length;
           if (length > 9) {
@@ -240,7 +255,9 @@ function show_cart() {
 
           $(".cart-list").html(str);
           calculateTotal();
-          bdsj();
+          
+            bdsj();
+            
           document.querySelectorAll(".cart-delete").forEach(function (button) {
             button.addEventListener("click", function () {
               // 获取对应的.product-name
@@ -256,8 +273,13 @@ function show_cart() {
                   success: function (response) {
                     if (response === "ok") {
                       // 如果 response 为 "ok"，则重新调用 show_cart() 函数
-                      show_cart();
-                      calTotal(total)
+                      
+                      res1()
+                      
+                      if (typeof total !== 'undefined' && total !== null) {
+                        calTotal(total)
+                      } 
+                      
                   calculateTotal()
                     }
                   }
@@ -270,7 +292,7 @@ function show_cart() {
     })
 
   }else{
-    bdsj();
+        bdsj();     
   }
 
 }
@@ -301,7 +323,4 @@ function calculateTotal() {
   $('.header-cart span').html("￥" +total)
 
 }
-$(document).ready(function () {
-  show_cart();
-  car_list();
-});
+

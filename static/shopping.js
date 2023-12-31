@@ -15,7 +15,8 @@ $(".price-btn").click(function() {
         } else {
             rightValue = rightValue * 100;
         }
-        res1();
+        res1()
+        
     });
 function brand() {
     var b1=0
@@ -98,6 +99,7 @@ Array.from(links).forEach(function(link) {
 
 }
 function res1() {
+    
     var str = "";
     if (globalRes.length === 0){
         str = "<div class=\"col\">\n" +
@@ -132,7 +134,7 @@ function res1() {
             "            <h6 class=\"product-name\"><a href=\"/product-details?pname=" + v[0] + "\">" + v[0] + "</a></h6>\n" +
             "            <h6 class=\"product-price\">\n" +
             "                <span>￥" + v[2] + "</span></h6>\n" +
-            "            <button class=\"product-add\" title=\"Add to Cart\" data-name=" + v[0] + "><i class=\"icofont-cart\"></i><span>add</span></button>\n" +
+            "            <button class=\"product-add\" title=\"Add to Cart\" data-name='" + v[0] + "'><i class=\"icofont-cart\"></i><span>add</span></button>\n" +
             "            <div class=\"product-action mt-3\">\n" +
             "                <button class=\"action-minus\" title=\"Quantity Minus\"><i class=\"icofont-minus\"></i></button>\n" +
             "                <input class=\"action-input\" title=\"Quantity Number\" type=\"text\" name=\"quantity\" value=\"1\" data-name=" + v[0] + " >\n" +
@@ -146,7 +148,14 @@ function res1() {
     }
 
             $('.row-cols-2').html(str)
-            car_list();
+            if (typeof p_details === 'function') {
+                // 当 p_details 函数被定义时执行的代码块
+                p_details();
+              } else{
+                show_cart();
+                car_list();
+              }
+              
 }
 function p_List() {
     var url = window.location.href;

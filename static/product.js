@@ -14,32 +14,37 @@ function pList() {
             data: { pname: search },
             dataType: 'json', // 预期服务器返回的数据类型
             success: function(res) { // 请求成功后的回调函数
-                var str = "<thead><tr><th>产品名</th><th>标签</th><th>建议零售价</th><th>描述</th>" +
-                            "<th>图片</th><th>库存</th><th>成本单价</th><th>操作</th></tr></thead><tbody>";
-                $.each(res, function(i, v) {
-                    str += "<tr>"; // str拼接出一个表格
-                    if (v[5] === 1) {
-                        str += "<td>(已下架)" + v[0] + "</td>";
-                    } else {
-                        str += "<td>" + v[0] + "</td>";
-                    }
-                    str += "<td>" + v[1] + "</td>";
-                    str += "<td>" + v[2] + "</td>";
-                    str += "<td>" + v[3] + "</td>";
-                    str += "<td class='img-container'><img src='"+ v[4]+ "'  alt="+v[0]+"></td>";
-                    str += "<td>" + v[6] + "</td>";
-                    str += "<td>" + v[7] + "</td>";
-                    const type = parseFloat(v[5]) > 0 ? '上架' : '下架';
-                    str += '<td> <button data-pname="' + v[0] + '" class="off-btn btn btn-warning btn-xs">' +
-                type+'</button>' +
-                '<button data-pname="' + v[0] + '" data-tag="' + v[1] + '" data-suggest="' + v[2] + '"' +
-                ' data-describe="' + v[3] + '" data-src="' + v[4] + '"'+
-                ' class="edit-btn btn btn-success btn-xs" data-bs-toggle="modal" ' +
-                'data-bs-target="#edit-product">修改</button></td>';
-                    str += "</tr>";
-                });
-                str += "</tbody>";
-                $('#product-list').html(str);
+                if (res.length == 0){
+
+                }else{
+                    var str = "<thead><tr><th>产品名</th><th>标签</th><th>建议零售价</th><th>描述</th>" +
+                    "<th>图片</th><th>库存</th><th>成本单价</th><th>操作</th></tr></thead><tbody>";
+        $.each(res, function(i, v) {
+            str += "<tr>"; // str拼接出一个表格
+            if (v[5] === 1) {
+                str += "<td><a href=\"/goods_export?search="+v[0]+"\">(已下架)" + v[0] + "</a></td>";
+            } else {
+                str += "<td><a href=\"/goods_export?search="+v[0]+"\">" + v[0] + "</a></td>";
+            }
+            str += "<td>" + v[1] + "</td>";
+            str += "<td>" + v[2] + "</td>";
+            str += "<td>" + v[3] + "</td>";
+            str += "<td class='img-container'><img src='"+ v[4]+ "'  alt="+v[0]+"></td>";
+            str += "<td>" + v[6] + "</td>";
+            str += "<td>" + v[7] + "</td>";
+            const type = parseFloat(v[5]) > 0 ? '上架' : '下架';
+            str += '<td> <button data-pname="' + v[0] + '" class="off-btn btn btn-warning btn-xs">' +
+        type+'</button>' +
+        '<button data-pname="' + v[0] + '" data-tag="' + v[1] + '" data-suggest="' + v[2] + '"' +
+        ' data-describe="' + v[3] + '" data-src="' + v[4] + '"'+
+        ' class="edit-btn btn btn-success btn-xs" data-bs-toggle="modal" ' +
+        'data-bs-target="#edit-product">修改</button></td>';
+            str += "</tr>";
+        });
+        str += "</tbody>";
+        $('#product-list').html(str);
+                }
+                
             },
             error: function(xhr, status, error) {
                 // 处理错误情况
@@ -52,14 +57,17 @@ function pList() {
             type: 'GET', // 请求类型
             dataType: 'json', // 预期服务器返回的数据类型
             success: function(res) { // 请求成功后的回调函数
+                if (res.length == 0){
+
+                }else{
                 var str = "<thead><tr><th>产品名</th><th>标签</th><th>建议零售价</th><th>描述</th>" +
                             "<th>图片</th><th>库存</th><th>成本单价</th><th>操作</th></tr></thead><tbody>";
                 $.each(res, function(i, v) {
                     str += "<tr>"; // str拼接出一个表格
                     if (v[5] === 1) {
-                        str += "<td>(已下架)" + v[0] + "</td>";
+                        str += "<td><a href=\"/goods_export?search="+v[0]+"\">(已下架)" + v[0] + "</a></td>";
                     } else {
-                        str += "<td>" + v[0] + "</td>";
+                        str += "<td><a href=\"/goods_export?search="+v[0]+"\">" + v[0] + "</a></td>";
                     }
                     str += "<td>" + v[1] + "</td>";
                     str += "<td>" + v[2] + "</td>";
@@ -78,7 +86,7 @@ function pList() {
                 });
                 str += "</tbody>";
                 $('#product-list').html(str);
-            },
+            }},
             error: function(xhr, status, error) {
                 // 处理错误情况
                 console.error("An error occurred: " + status + ", error: " + error);

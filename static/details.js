@@ -55,7 +55,7 @@ function p_details() {
                     "        </ul>\n" +
                     "       </div>\n" +
                     "       <div class=\"details-add-group\">\n" +
-                    "        <button class=\"product-add\" title=\"Add to Cart\" data-name=" + response.product_name + " ><i class=\"icofont-cart\"></i><span>add to cart</span></button>\n" +
+                    "        <button class=\"product-add\" title=\"Add to Cart\" data-name='" + response.product_name + "' ><i class=\"icofont-cart\"></i><span>add to cart</span></button>\n" +
                     "        <div class=\"product-action mt-3\">\n" +
                     "         <button class=\"action-minus\" title=\"Quantity Minus\"><i class=\"icofont-minus\"></i></button>\n" +
                     "         <input class=\"action-input\" title=\"Quantity Number\" type=\"text\" name=\"quantity\" value=\"1\" data-name=" + response.product_name + ">\n" +
@@ -66,6 +66,7 @@ function p_details() {
 
                 $(".row").find(".col-lg-6").eq(0).html(str1);
                 $(".showdetails").find(".col-lg-6").eq(1).html(str2);
+                show_cart();
                 car_list();
             }
         },
@@ -74,4 +75,3 @@ function p_details() {
         }
     });
 }
-p_details();
